@@ -18,7 +18,8 @@ This repository provides tools to detect concepts of interest based on model act
 
 ### Origin
 
-This project is based on [models-under-pressure](https://github.com/arrrlex/models-under-pressure), which focuses on activation probes for the specific purpose of detecting high-stakes situations.
+This project is based on [models-under-pressure](https://github.com/arrrlex/models-under-pressure) (to be published soon),
+which focuses on activation probes for the specific purpose of detecting high-stakes situations.
 It was created with the purpose of quickly running follow-up experiments with other concepts.
 
 Differences to the original repo:
