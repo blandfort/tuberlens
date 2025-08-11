@@ -1,0 +1,64 @@
+[project]
+name = "potato-probes"
+version = "0.1.0"
+description = "A library for training and evaluating neural network activation probes"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "accelerate>=1.8.1",
+    "datasets>=3.3.2",
+    "einops>=0.8.1",
+    "huggingface_hub>=0.33.0",
+    "jaxtyping>=0.2.38",
+    "numpy<2",
+    "openai>=1.63.2",
+    "pandas>=2.2.3",
+    "pydantic>=2.11.7",
+    "pydantic-settings>=2.8.1",
+    "python-dotenv>=1.0.1",
+    "requests>=2.32.4",
+    "scikit-learn>=1.6.1",
+    "torch>=2.2,<2.3",
+    "tqdm>=4.67.1",
+    "transformers>=4.50.0",
+    "wandb>=0.19.6",
+]
+
+[project.urls]
+Homepage = "https://github.com/blandfort/potato"
+Repository = "https://github.com/blandfort/potato.git"
+Issues = "https://github.com/blandfort/probes/issues"
+
+[project.optional-dependencies]
+dev = [
+    "ipykernel>=6.29.5",
+    "openpyxl>=3.1.5",
+    "pipreqs>=0.5.0",
+    "pre-commit>=3.5.0",
+    "pyright[nodejs]>=1.1.394",
+    "pytest>=8.3.4",
+    "pytest-asyncio>=0.25.3",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+
+
+[tool.ruff]
+line-length = 88
+lint.extend-ignore = [
+    "ANN401",  # Dynamically typed expressions (typing.Any) are disallowed
+    "F722", # This interacts badly with jaxtyping
+]
+
+[tool.pyright]
+reportMissingParameterType = true
+reportUnknownParameterType = false
+
+[tool.pytest.ini_options]
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/potato"]
