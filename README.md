@@ -4,7 +4,8 @@
 
 # Potato
 
-A Python library for training and evaluating neural network activation probes. This package provides tools for interpretability research by enabling systematic probing of transformer model representations.
+A Python library for training and evaluating neural network activation probes.
+This repository provides tools to detect concepts of interest based on model activations from a single layer.
 
 ## Features
 
@@ -92,7 +93,7 @@ If you use this software in your research, please cite both the original researc
 
 ### Original Research Paper
 ```bibtex
-@misc{mckenzie2025detectinghighstakesinteractionsactivation,
+@misc{mckenzie2025highstakes,
       title={Detecting High-Stakes Interactions with Activation Probes},
       author={Alex McKenzie and Urja Pawar and Phil Blandfort and William Bankes and David Krueger and Ekdeep Singh Lubana and Dmitrii Krasheninnikov},
       year={2025},
@@ -105,7 +106,7 @@ If you use this software in your research, please cite both the original researc
 
 ### This Software
 ```bibtex
-@software{potato_probes,
+@software{potato,
   author = {Blandfort, Phil},
   title = {Potato: A Python Library for Training and Evaluating Neural Network Activation Probes},
   year={2025},
