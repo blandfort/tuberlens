@@ -29,7 +29,7 @@ Homepage = "https://github.com/blandfort/potato"
 Repository = "https://github.com/blandfort/potato.git"
 Issues = "https://github.com/blandfort/probes/issues"
 
-[project.optional-dependencies]
+[tool.uv.dependency-groups]
 dev = [
     "ipykernel>=6.29.5",
     "openpyxl>=3.1.5",
