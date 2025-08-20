@@ -22,7 +22,7 @@ class GlobalSettings(BaseSettings):
     ACTIVATIONS_DIR: Path = DATA_DIR / "activations"
     DOUBLE_CHECK_CONFIG: bool = True
     PL_DEFAULT_ROOT_DIR: str | None = None
-    WANDB_PROJECT: str | None = None  # Default W&B project name
+    WANDB_PROJECT: str | None = None  # Default W&B project name (not using W&B if None)
     WANDB_API_KEY: str | None = None
     USE_PROBE_STORE: bool = True
 

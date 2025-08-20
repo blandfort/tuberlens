@@ -68,7 +68,7 @@ HF_TOKEN=your_huggingface_token
 
 ## Quick Start
 
-See [notebooks/probe_training.py](notebooks/probe_training.py) for how to train and load probes.
+See [notebooks/examples/](notebooks/examples/) for several examples on how to train and load probes.
 
 
 ## Available Probe Types
