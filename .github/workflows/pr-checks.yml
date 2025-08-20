@@ -18,7 +18,7 @@ jobs:
           cache-dependency-glob: "pyproject.toml"
 
       - name: Install dependencies
-        run: uv sync && uv tree
+        run: uv sync --group dev && uv tree
 
       - name: Cache pre-commit
         uses: actions/cache@v4
