@@ -17,6 +17,7 @@ from types import MappingProxyType
 from typing import Any, Callable, Self, Sequence, Type
 
 import torch
+from tqdm import tqdm
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from transformers.tokenization_utils_base import PreTrainedTokenizerBase
 
@@ -355,6 +356,7 @@ class LLMModel:
         layer: int,
         max_length: int = 1024,
         ending_tokens_to_ignore: int = 0,
+        show_progress: bool = False,
     ) -> Activation:
         """Simplified version of get_batched_activations for a single layer."""
         batch_size = self.batch_size
@@ -365,7 +367,10 @@ class LLMModel:
         input_ids = []
 
         with HookedModel(self.model, [layer]) as hooked_model:
-            for i in range(0, len(inputs), batch_size):
+            iterator = range(0, len(inputs), batch_size)
+            if show_progress:
+                iterator = tqdm(iterator, desc="Processing batches")
+            for i in iterator:
                 batch_inputs = inputs[i : i + batch_size]
                 batch_inputs = self.tokenize(
                     batch_inputs, ending_tokens_to_ignore=ending_tokens_to_ignore
