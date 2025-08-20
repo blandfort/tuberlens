@@ -36,22 +36,22 @@ class Message(BaseModel):
 
 
 class Label(Enum):
-    LOW_STAKES = "low-stakes"
-    HIGH_STAKES = "high-stakes"
+    NEGATIVE = "negative"
+    POSITIVE = "positive"
     AMBIGUOUS = "ambiguous"
 
     def to_int(self) -> int:
         return {
-            Label.LOW_STAKES: 0,
-            Label.HIGH_STAKES: 1,
+            Label.NEGATIVE: 0,
+            Label.POSITIVE: 1,
             Label.AMBIGUOUS: 2,
         }[self]
 
     @classmethod
     def from_int(cls, i: int) -> "Label":
         return {
-            0: cls.LOW_STAKES,
-            1: cls.HIGH_STAKES,
+            0: cls.NEGATIVE,
+            1: cls.POSITIVE,
             2: cls.AMBIGUOUS,
         }[i]
 
@@ -631,11 +631,11 @@ def subsample_balanced_subset(
     include_ambiguous: bool = False,
 ) -> LabelledDataset:
     """Subsample a balanced subset of the dataset"""
-    high_stakes_indices = [
-        i for i, label in enumerate(dataset.labels) if label == Label.HIGH_STAKES
+    positive_indices = [
+        i for i, label in enumerate(dataset.labels) if label == Label.POSITIVE
     ]
-    low_stakes_indices = [
-        i for i, label in enumerate(dataset.labels) if label == Label.LOW_STAKES
+    negative_indices = [
+        i for i, label in enumerate(dataset.labels) if label == Label.NEGATIVE
     ]
     if include_ambiguous:
         ambiguous_indices = [
@@ -645,16 +645,16 @@ def subsample_balanced_subset(
     if n_per_class is None:
         if include_ambiguous:
             n_per_class = min(
-                len(high_stakes_indices),
-                len(low_stakes_indices),
+                len(positive_indices),
+                len(negative_indices),
                 len(ambiguous_indices),
             )
         else:
-            n_per_class = min(len(high_stakes_indices), len(low_stakes_indices))
+            n_per_class = min(len(positive_indices), len(negative_indices))
 
     try:
-        indices = random.sample(high_stakes_indices, n_per_class) + random.sample(
-            low_stakes_indices, n_per_class
+        indices = random.sample(positive_indices, n_per_class) + random.sample(
+            negative_indices, n_per_class
         )
         if include_ambiguous:
             indices += random.sample(ambiguous_indices, n_per_class)
