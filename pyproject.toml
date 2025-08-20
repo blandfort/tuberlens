@@ -9,6 +9,7 @@ dependencies = [
     "datasets>=3.3.2",
     "einops>=0.8.1",
     "huggingface_hub>=0.33.0",
+    "ipykernel>=6.30.1",
     "jaxtyping>=0.2.38",
     "numpy<2",
     "openai>=1.63.2",
