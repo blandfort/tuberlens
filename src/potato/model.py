@@ -185,7 +185,7 @@ def tokenize_inputs(
         if k in ["input_ids", "attention_mask"]:
             token_dict[k] = v[:, 1:]
         if ending_tokens_to_ignore > 0 and k == "attention_mask":
-            token_dict[k][:, -ending_tokens_to_ignore:] = 0
+            token_dict[k][:, -ending_tokens_to_ignore:] = 0  # type: ignore
         if isinstance(v, torch.Tensor):
             token_dict[k] = v.to(device)
 
@@ -277,7 +277,7 @@ class LLMModel:
         if tokenizer.pad_token_id is None:
             tokenizer.pad_token_id = tokenizer.eos_token_id
 
-        model.generation_config.pad_token_id = tokenizer.pad_token_id
+        model.generation_config.pad_token_id = tokenizer.pad_token_id  # type: ignore
 
         tokenize_kwargs = cls.default_tokenize_kwargs | (tokenize_kwargs or {})
 

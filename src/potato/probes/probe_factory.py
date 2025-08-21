@@ -79,7 +79,7 @@ class ProbeFactory:
         match probe_spec.name:
             case ProbeType.sklearn:
                 probe = SklearnProbe(
-                    hyper_params=probe_spec.hyperparams,
+                    hyper_params=probe_spec.hyperparams or {},
                     **probe_kwargs,
                 )
                 return probe.fit(train_dataset)
@@ -87,50 +87,50 @@ class ProbeFactory:
             case ProbeType.difference_of_means:
                 classifier = PytorchDifferenceOfMeansClassifier(
                     use_lda=False,
-                    training_args=probe_spec.hyperparams,
+                    training_args=probe_spec.hyperparams or {},
                 )
             case ProbeType.lda:
                 classifier = PytorchDifferenceOfMeansClassifier(
                     use_lda=True,
-                    training_args=probe_spec.hyperparams,
+                    training_args=probe_spec.hyperparams or {},
                 )
             case ProbeType.pre_mean:
                 classifier = PytorchAdamClassifier(
-                    training_args=probe_spec.hyperparams,
+                    training_args=probe_spec.hyperparams or {},
                     probe_architecture=MeanThenLinear,
                 )
             case ProbeType.attention:
                 classifier = PytorchAdamClassifier(
-                    training_args=probe_spec.hyperparams,
+                    training_args=probe_spec.hyperparams or {},
                     probe_architecture=AttnLite,
                 )
             case ProbeType.linear_then_mean:
                 classifier = PytorchAdamClassifier(
-                    training_args=probe_spec.hyperparams,
+                    training_args=probe_spec.hyperparams or {},
                     probe_architecture=LinearThenMean,
                 )
             case ProbeType.linear_then_max:
                 classifier = PytorchAdamClassifier(
-                    training_args=probe_spec.hyperparams,
+                    training_args=probe_spec.hyperparams or {},
                     probe_architecture=LinearThenMax,
                 )
             case ProbeType.linear_then_softmax:
                 classifier = PytorchAdamClassifier(
-                    training_args=probe_spec.hyperparams,
+                    training_args=probe_spec.hyperparams or {},
                     probe_architecture=LinearThenSoftmax,
                 )
             case ProbeType.linear_then_rolling_max:
                 classifier = PytorchAdamClassifier(
-                    training_args=probe_spec.hyperparams,
+                    training_args=probe_spec.hyperparams or {},
                     probe_architecture=LinearThenRollingMax,
                 )
             case ProbeType.linear_then_last:
                 classifier = PytorchAdamClassifier(
-                    training_args=probe_spec.hyperparams,
+                    training_args=probe_spec.hyperparams or {},
                     probe_architecture=LinearThenLast,
                 )
         probe = PytorchProbe(
-            hyper_params=probe_spec.hyperparams,
+            hyper_params=probe_spec.hyperparams or {},
             _classifier=classifier,
             **probe_kwargs,
         )
