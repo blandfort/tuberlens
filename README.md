@@ -59,6 +59,9 @@ uv sync && uv run pre-commit install
 pip install -e .[dev]
 ```
 
+Note: In case 'uv' isn't already installed, see [here](https://docs.astral.sh/uv/getting-started/installation) how to set it up.
+
+
 ### Environment Setup
 Add a `.env` file to the project root with the following environment variables:
 ```

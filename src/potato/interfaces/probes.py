@@ -75,6 +75,7 @@ class ProbeType(str, Enum):
                 "patience": 50,
             },
             ProbeType.linear_then_softmax: {
+                "temperature": 5,
                 "batch_size": 16,
                 "epochs": 200,
                 "optimizer_args": {"lr": 5e-3, "weight_decay": 1e-3},
@@ -84,6 +85,7 @@ class ProbeType(str, Enum):
             },
             ProbeType.linear_then_rolling_max: {
                 "batch_size": 16,
+                "window_size": 40,
                 "epochs": 200,
                 "optimizer_args": {"lr": 5e-3, "weight_decay": 1e-3},
                 "final_lr": 1e-4,
