@@ -53,13 +53,13 @@ class ModelArchitecture(ABC):
 
 class Gemma3Arch(ModelArchitecture):
     def get_layer_norm(self, model: torch.nn.Module, layer_idx: int) -> torch.nn.Module:
-        return model.language_model.model.layers[layer_idx].input_layernorm  # type: ignore
+        return model.language_model.layers[layer_idx].input_layernorm  # type: ignore
 
     def get_layers(self, model: torch.nn.Module) -> list[torch.nn.Module]:
-        return model.language_model.model.layers  # type: ignore
+        return model.language_model.layers  # type: ignore
 
     def set_layers(self, model: torch.nn.Module, layers: list[torch.nn.Module]) -> None:
-        model.language_model.model.layers = layers  # type: ignore
+        model.language_model.layers = layers  # type: ignore
 
 
 class LlamaArch(ModelArchitecture):
@@ -469,3 +469,21 @@ class LLMModel:
         return self.tokenizer.decode(
             out_tokens, skip_special_tokens=skip_special_tokens
         )
+
+
+if __name__ == "__main__":
+    from dotenv import load_dotenv
+
+    load_dotenv()
+
+    from potato.config import DATA_DIR, LOCAL_MODELS
+    from potato.interfaces.dataset import LabelledDataset
+
+    model_name = LOCAL_MODELS["gemma-1b"]
+    model = LLMModel.load(model_name)
+
+    # Initialize a toy dataset and get activations
+    dataset = LabelledDataset.load_from(
+        DATA_DIR / "deception" / "train_dataset.jsonl",
+    )
+    model.get_activations(dataset.inputs, layer=11)
