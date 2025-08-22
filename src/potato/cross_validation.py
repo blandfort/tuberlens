@@ -26,6 +26,7 @@ from potato.interfaces.dataset import LabelledDataset
 from potato.interfaces.probes import ProbeSpec, ProbeType
 from potato.model import LLMModel
 from potato.probes.probe_factory import ProbeFactory
+from potato.probes.pytorch_probes import filter_activations_by_turns
 
 
 class ChooseLayerConfig(BaseModel):
@@ -40,6 +41,10 @@ class ChooseLayerConfig(BaseModel):
     layer_batch_size: int = 4
     pos_class_label: str | None = None
     neg_class_label: str | None = None
+    # Transformation parameters (matching training.py)
+    ending_tokens_to_ignore: int = 0
+    start_turn_index: int | None = None
+    end_turn_index: int | None = None
 
     @property
     def output_path(self) -> Path:
@@ -173,7 +178,7 @@ def get_cross_validation_accuracies(
     """Get the cross validation accuracies for a given layer.
 
     Args:
-        dataset: Dataset to evaluate
+        dataset: Dataset to evaluate (with activations already computed and transformations applied)
         cv_splits: CVSplits
         probe_spec: ProbeSpec
         model_name: Name of the model
@@ -203,7 +208,15 @@ def get_cross_validation_accuracies(
 
 
 def choose_best_layer_via_cv(config: ChooseLayerConfig) -> CVFinalResults:
-    """Main function to choose the best layer via cross validation."""
+    """Main function to choose the best layer via cross validation.
+
+    This function supports the same transformations as training.py:
+    - ending_tokens_to_ignore: Number of tokens to ignore at the end of input
+    - start_turn_index/end_turn_index: Turn-based filtering for dialogue inputs
+
+    Activations are computed once per layer with transformations applied,
+    then the dataset is split for cross-validation to avoid recomputing activations.
+    """
 
     os.environ["TOKENIZERS_PARALLELISM"] = "true"
 
@@ -232,15 +245,30 @@ def choose_best_layer_via_cv(config: ChooseLayerConfig) -> CVFinalResults:
     pbar = tqdm(total=len(layers), desc="Cross-validating layers")
 
     for layer in layers:
+        # Compute activations once for the entire dataset with transformations applied
+        print(f"Computing activations for layer {layer}...")
         activations = llm.get_activations(
             dataset.inputs,
             layer=layer,
+            ending_tokens_to_ignore=config.ending_tokens_to_ignore,
+            show_progress=True,
         )
 
+        # Apply turn-based filtering if specified
+        if config.start_turn_index is not None or config.end_turn_index is not None:
+            activations = filter_activations_by_turns(
+                activations=activations,
+                inputs=list(dataset.inputs),
+                model=llm,
+                start_turn_index=config.start_turn_index,
+                end_turn_index=config.end_turn_index,
+            )
+
+        # Assign transformed activations to dataset
         dataset = dataset.assign(
             activations=activations.activations,
-            input_ids=activations.input_ids,
             attention_mask=activations.attention_mask,
+            input_ids=activations.input_ids,
         )
 
         layer_results = get_cross_validation_accuracies(
@@ -288,6 +316,10 @@ if __name__ == "__main__":
             probe_spec=ProbeSpec(name=ProbeType.sklearn, hyperparams={}),
             pos_class_label=pos_class_label,
             neg_class_label=neg_class_label,
+            # Example transformation parameters (optional)
+            # ending_tokens_to_ignore=2,
+            # start_turn_index=0,
+            # end_turn_index=2,
         )
         for model_name, max_layer in [
             # ("gemma-27b", 61),
