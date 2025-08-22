@@ -230,7 +230,11 @@ class BaseDataset(BaseModel, Generic[R]):
 
     @classmethod
     def from_pandas(
-        cls, df: pd.DataFrame, field_mapping: Optional[Mapping[str, str]] = None
+        cls,
+        df: pd.DataFrame,
+        field_mapping: Optional[Mapping[str, str]] = None,
+        pos_class_label: Optional[str] = None,
+        neg_class_label: Optional[str] = None,
     ) -> Self:
         # Extract the required columns
         df = df.rename(columns=field_mapping or {})
@@ -268,23 +272,59 @@ class BaseDataset(BaseModel, Generic[R]):
             if col not in {"inputs", "ids"}
         }
 
+        # Handle label mapping if specified
+        if (
+            pos_class_label is not None
+            and neg_class_label is not None
+            and "labels" in other_fields
+        ):
+            labels = other_fields["labels"]
+            mapped_labels = []
+            for label in labels:
+                if label == pos_class_label:
+                    mapped_labels.append(1)  # positive class
+                elif label == neg_class_label:
+                    mapped_labels.append(0)  # negative class
+                else:
+                    # Keep original value if it doesn't match either class
+                    mapped_labels.append(label)
+            other_fields["labels"] = mapped_labels
+
         return cls(inputs=inputs, ids=ids, other_fields=other_fields)
 
     @classmethod
     def from_jsonl(
-        cls, file_path: Path, field_mapping: Optional[Mapping[str, str]] = None
+        cls,
+        file_path: Path,
+        field_mapping: Optional[Mapping[str, str]] = None,
+        pos_class_label: Optional[str] = None,
+        neg_class_label: Optional[str] = None,
     ) -> Self:
         with open(file_path, "r") as f:
             df = pd.DataFrame([json.loads(line) for line in f])
 
-        return cls.from_pandas(df, field_mapping=field_mapping)
+        return cls.from_pandas(
+            df,
+            field_mapping=field_mapping,
+            pos_class_label=pos_class_label,
+            neg_class_label=neg_class_label,
+        )
 
     @classmethod
     def from_csv(
-        cls, file_path: Path, field_mapping: Optional[Mapping[str, str]] = None
+        cls,
+        file_path: Path,
+        field_mapping: Optional[Mapping[str, str]] = None,
+        pos_class_label: Optional[str] = None,
+        neg_class_label: Optional[str] = None,
     ) -> Self:
         df = pd.read_csv(file_path)
-        return cls.from_pandas(df, field_mapping=field_mapping)
+        return cls.from_pandas(
+            df,
+            field_mapping=field_mapping,
+            pos_class_label=pos_class_label,
+            neg_class_label=neg_class_label,
+        )
 
     @classmethod
     def from_huggingface(
@@ -293,16 +333,25 @@ class BaseDataset(BaseModel, Generic[R]):
         split: Optional[str] = None,
         subset: Optional[str] = None,
         field_mapping: Optional[Mapping[str, str]] = None,
+        pos_class_label: Optional[str] = None,
+        neg_class_label: Optional[str] = None,
     ) -> Self:
         ds = datasets.load_dataset(dataset_name, split=split, name=subset)
         df = pd.DataFrame(ds)  # type: ignore
-        return cls.from_pandas(df, field_mapping=field_mapping)
+        return cls.from_pandas(
+            df,
+            field_mapping=field_mapping,
+            pos_class_label=pos_class_label,
+            neg_class_label=neg_class_label,
+        )
 
     @classmethod
     def load_from(
         cls,
         file_path_or_name: Path | str,
         field_mapping: Optional[Mapping[str, str]] = None,
+        pos_class_label: Optional[str] = None,
+        neg_class_label: Optional[str] = None,
         **loader_kwargs: Any,
     ) -> Self:
         """
@@ -314,6 +363,9 @@ class BaseDataset(BaseModel, Generic[R]):
 
         Args:
             file_path: The path to the file to load
+            field_mapping: Optional mapping from column names in file to expected names
+            pos_class_label: String label for positive class (will be mapped to 1)
+            neg_class_label: String label for negative class (will be mapped to 0)
             loader_kwargs: Additional keyword arguments to pass to the loader
         """
         # Infer from extension
@@ -327,13 +379,21 @@ class BaseDataset(BaseModel, Generic[R]):
             except KeyError:
                 raise ValueError(f"Unsupported file type: '{file_path_or_name.suffix}'")
             return loader(
-                file_path_or_name, field_mapping=field_mapping, **loader_kwargs
+                file_path_or_name,
+                field_mapping=field_mapping,
+                pos_class_label=pos_class_label,
+                neg_class_label=neg_class_label,
+                **loader_kwargs,
             )
         else:
             if not len(file_path_or_name.split("/")) == 2:
                 raise ValueError(f"Invalid dataset name: {file_path_or_name}")
             return cls.from_huggingface(
-                file_path_or_name, field_mapping=field_mapping, **loader_kwargs
+                file_path_or_name,
+                field_mapping=field_mapping,
+                pos_class_label=pos_class_label,
+                neg_class_label=neg_class_label,
+                **loader_kwargs,
             )
 
     @classmethod

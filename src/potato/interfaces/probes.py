@@ -122,7 +122,7 @@ class ProbeSpec(BaseModel):
 class Probe(ABC):
     model_name: str | None
     layer: int | None
-    description: str | None
+    description: str | None = None
     pos_class_label: str = "positive"
     neg_class_label: str = "negative"
 
