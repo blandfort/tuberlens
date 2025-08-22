@@ -1,7 +1,9 @@
 import hashlib
 import json
+import os
 import pickle
 import random
+import tempfile
 from enum import Enum
 from functools import cached_property
 from pathlib import Path
@@ -23,6 +25,7 @@ from typing import (
 import datasets
 import numpy as np
 import pandas as pd
+import requests
 import torch
 from jaxtyping import Float
 from pydantic import BaseModel, Field, model_validator
@@ -724,3 +727,31 @@ def subsample_balanced_subset(
     random.shuffle(indices)
 
     return dataset[indices]
+
+
+def download_and_load_dataset(
+    url: str, pos_class_label: str | None = None, neg_class_label: str | None = None
+) -> LabelledDataset:
+    """Download dataset from URL and load it as a LabelledDataset"""
+    print(f"Downloading dataset from {url}...")
+    response = requests.get(url)
+    response.raise_for_status()  # Raise an exception for bad status codes
+
+    # Create a temporary file to store the downloaded data
+    with tempfile.NamedTemporaryFile(
+        mode="w", suffix=".jsonl", delete=False
+    ) as temp_file:
+        temp_file.write(response.text)
+        temp_file_path = Path(temp_file.name)
+
+    try:
+        # Load the dataset from the temporary file
+        dataset = LabelledDataset.load_from(
+            temp_file_path,
+            pos_class_label=pos_class_label,
+            neg_class_label=neg_class_label,
+        )
+        return dataset
+    finally:
+        # Clean up the temporary file
+        os.unlink(temp_file_path)
