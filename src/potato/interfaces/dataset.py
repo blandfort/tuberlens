@@ -737,9 +737,16 @@ def download_and_load_dataset(
     response = requests.get(url)
     response.raise_for_status()  # Raise an exception for bad status codes
 
+    if url.endswith(".jsonl"):
+        suffix = ".jsonl"
+    elif url.endswith(".csv"):
+        suffix = ".csv"
+    else:
+        raise ValueError(f"Unsupported file type: {url}")
+
     # Create a temporary file to store the downloaded data
     with tempfile.NamedTemporaryFile(
-        mode="w", suffix=".jsonl", delete=False
+        mode="w", suffix=suffix, delete=False
     ) as temp_file:
         temp_file.write(response.text)
         temp_file_path = Path(temp_file.name)
