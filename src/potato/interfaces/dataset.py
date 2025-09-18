@@ -716,11 +716,11 @@ def subsample_balanced_subset(
             n_per_class = min(len(positive_indices), len(negative_indices))
 
     try:
-        indices = random.sample(positive_indices, n_per_class) + random.sample(
-            negative_indices, n_per_class
+        indices = random.sample(positive_indices, min(len(positive_indices), n_per_class)) + random.sample(
+            negative_indices, min(len(negative_indices), n_per_class)
         )
         if include_ambiguous:
-            indices += random.sample(ambiguous_indices, n_per_class)
+            indices += random.sample(ambiguous_indices, min(len(ambiguous_indices), n_per_class))
     except ValueError:
         breakpoint()
 

@@ -10,7 +10,7 @@ DATA_DIR = PROJECT_ROOT / "data"
 
 
 class GlobalSettings(BaseSettings):
-    LLM_DEVICE: str = "mps"  # Device for the LLM model
+    LLM_DEVICE: str = "auto"  # Device for the LLM model
     DEVICE: str = (
         "cuda" if torch.cuda.is_available() else "cpu"
     )  # Device for activations, probes, etc.
