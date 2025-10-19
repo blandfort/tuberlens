@@ -17,16 +17,16 @@ import numpy as np
 from pydantic import BaseModel, Field
 from tqdm import tqdm
 
-from potato.config import (
+from tuberlens.config import (
     DATA_DIR,
     LOCAL_MODELS,
     RESULTS_DIR,
 )
-from potato.interfaces.dataset import LabelledDataset
-from potato.interfaces.probes import ProbeSpec, ProbeType
-from potato.model import LLMModel
-from potato.probes.probe_factory import ProbeFactory
-from potato.probes.pytorch_probes import filter_activations_by_turns
+from tuberlens.interfaces.dataset import LabelledDataset
+from tuberlens.interfaces.probes import ProbeSpec, ProbeType
+from tuberlens.model import LLMModel
+from tuberlens.probes.probe_factory import ProbeFactory
+from tuberlens.probes.pytorch_probes import filter_activations_by_turns
 
 
 class ChooseLayerConfig(BaseModel):

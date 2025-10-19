@@ -1,5 +1,5 @@
 [project]
-name = "potato-probes"
+name = "tuberlens"
 version = "0.1.0"
 description = "A library for training and evaluating neural network activation probes"
 readme = "README.md"
@@ -25,9 +25,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/blandfort/potato"
-Repository = "https://github.com/blandfort/potato.git"
-Issues = "https://github.com/blandfort/probes/issues"
+Homepage = "https://github.com/blandfort/tuberlens"
+Repository = "https://github.com/blandfort/tuberlens.git"
+Issues = "https://github.com/blandfort/tuberlens/issues"
 
 [dependency-groups]
 dev = [
@@ -60,4 +60,4 @@ reportUnknownParameterType = false
 asyncio_default_fixture_loop_scope = "function"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/potato"]
+packages = ["src/tuberlens"]

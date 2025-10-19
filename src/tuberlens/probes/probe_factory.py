@@ -1,12 +1,12 @@
-from potato.config import global_settings
-from potato.interfaces.dataset import LabelledDataset
-from potato.interfaces.probes import Probe, ProbeSpec, ProbeType
-from potato.probes.probe_store import FullProbeSpec, ProbeStore
-from potato.probes.pytorch_classifiers import (
+from tuberlens.config import global_settings
+from tuberlens.interfaces.dataset import LabelledDataset
+from tuberlens.interfaces.probes import Probe, ProbeSpec, ProbeType
+from tuberlens.probes.probe_store import FullProbeSpec, ProbeStore
+from tuberlens.probes.pytorch_classifiers import (
     PytorchAdamClassifier,
     PytorchDifferenceOfMeansClassifier,
 )
-from potato.probes.pytorch_modules import (
+from tuberlens.probes.pytorch_modules import (
     AttnLite,
     LinearThenLast,
     LinearThenMax,
@@ -15,8 +15,8 @@ from potato.probes.pytorch_modules import (
     LinearThenSoftmax,
     MeanThenLinear,
 )
-from potato.probes.pytorch_probes import PytorchProbe
-from potato.probes.sklearn_probes import SklearnProbe
+from tuberlens.probes.pytorch_probes import PytorchProbe
+from tuberlens.probes.sklearn_probes import SklearnProbe
 
 
 class ProbeFactory:

@@ -10,9 +10,9 @@ from sklearn.metrics import roc_auc_score
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-from potato.config import global_settings
-from potato.interfaces.activations import Activation
-from potato.utils import as_numpy
+from tuberlens.config import global_settings
+from tuberlens.interfaces.activations import Activation
+from tuberlens.utils import as_numpy
 
 
 class PytorchClassifier(Protocol):

@@ -8,7 +8,7 @@ import torch
 from jaxtyping import Float
 from pydantic import BaseModel, JsonValue
 
-from potato.interfaces.dataset import (
+from tuberlens.interfaces.dataset import (
     BaseDataset,
     Label,
     LabelledDataset,

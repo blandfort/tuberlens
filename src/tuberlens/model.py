@@ -21,14 +21,14 @@ from tqdm import tqdm
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from transformers.tokenization_utils_base import PreTrainedTokenizerBase
 
-from potato.config import global_settings
-from potato.interfaces.activations import Activation
-from potato.interfaces.dataset import (
+from tuberlens.config import global_settings
+from tuberlens.interfaces.activations import Activation
+from tuberlens.interfaces.dataset import (
     Dialogue,
     Input,
     to_dialogue,
 )
-from potato.utils import hf_login
+from tuberlens.utils import hf_login
 
 
 # type: ignore
@@ -476,8 +476,8 @@ if __name__ == "__main__":
 
     load_dotenv()
 
-    from potato.config import DATA_DIR, LOCAL_MODELS
-    from potato.interfaces.dataset import LabelledDataset
+    from tuberlens.config import DATA_DIR, LOCAL_MODELS
+    from tuberlens.interfaces.dataset import LabelledDataset
 
     model_name = LOCAL_MODELS["gemma-1b"]
     model = LLMModel.load(model_name)

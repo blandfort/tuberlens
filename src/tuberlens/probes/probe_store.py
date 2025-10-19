@@ -8,9 +8,9 @@ from typing import Self
 
 from pydantic import BaseModel
 
-from potato.config import PROBES_DIR
-from potato.interfaces.dataset import LabelledDataset
-from potato.interfaces.probes import Probe, ProbeSpec
+from tuberlens.config import PROBES_DIR
+from tuberlens.interfaces.dataset import LabelledDataset
+from tuberlens.interfaces.probes import Probe, ProbeSpec
 
 
 class FullProbeSpec(ProbeSpec):

@@ -1,8 +1,8 @@
-from potato.interfaces.dataset import LabelledDataset
-from potato.interfaces.probes import ProbeSpec
-from potato.model import LLMModel
-from potato.probes.probe_factory import ProbeFactory
-from potato.probes.pytorch_probes import filter_activations_by_turns
+from tuberlens.interfaces.dataset import LabelledDataset
+from tuberlens.interfaces.probes import ProbeSpec
+from tuberlens.model import LLMModel
+from tuberlens.probes.probe_factory import ProbeFactory
+from tuberlens.probes.pytorch_probes import filter_activations_by_turns
 
 
 def train_probe(

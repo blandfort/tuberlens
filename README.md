@@ -1,8 +1,8 @@
 <div align="center">
-  <img src="assets/potato_probe.png" alt="Potato Probes Logo" width="200"/>
+  <img src="assets/tuberlens_logo.png" alt="TuberLens Logo" width="200"/>
 </div>
 
-# Potato
+# TuberLens
 
 A Python library for training and evaluating neural network activation probes.
 This repository provides tools to detect concepts of interest based on model activations from a single layer.
@@ -36,9 +36,9 @@ Differences to the original repo:
 
 Another open-source library for working with activation probes is [probity](https://github.com/curt-tigges/probity).
 
-The main differences between potato and probity are:
+The main differences between TuberLens and probity are:
 
-- Potato doesn't rely on TransformerLens but uses HuggingFace models directly
+- TuberLens doesn't rely on TransformerLens but uses HuggingFace models directly
 - Applying chat templates isn't directly suppported in probity (to the best of my knowledge; as of August 2025)
 - Probity includes more dataset functionality
 - Probity has comprehensive tests
@@ -49,8 +49,8 @@ The main differences between potato and probity are:
 ### For Development
 ```bash
 # Clone the repository
-git clone https://github.com/blandfort/potato.git
-cd potato
+git clone https://github.com/blandfort/tuberlens.git
+cd tuberlens
 
 # Install with uv (recommended)
 uv sync && uv run pre-commit install
@@ -110,10 +110,10 @@ If you use this software in your research, please cite both the original researc
 
 ### This Software
 ```bibtex
-@software{potato,
+@software{tuberlens,
   author={Phil Blandfort and Alex McKenzie and Urja Pawar and William Bankes},
-  title={Potato: A Python Library for Training and Evaluating Neural Network Activation Probes},
+  title={TuberLens: A Python Library for Training and Evaluating Neural Network Activation Probes},
   year={2025},
-  url={https://github.com/blandfort/potato}
+  url={https://github.com/blandfort/tuberlens}
 }
 ```
