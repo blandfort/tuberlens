@@ -8,16 +8,16 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
-from potato.interfaces.activations import Activation
-from potato.interfaces.dataset import (
+from tuberlens.interfaces.activations import Activation
+from tuberlens.interfaces.dataset import (
     BaseDataset,
     Dataset,
     Input,
     Label,
     LabelledDataset,
 )
-from potato.interfaces.probes import Classifier, Probe
-from potato.utils import as_numpy
+from tuberlens.interfaces.probes import Classifier, Probe
+from tuberlens.utils import as_numpy
 
 
 @dataclass(kw_only=True)

@@ -5,8 +5,8 @@ import torch
 from jaxtyping import Float
 from torch.utils.data import Dataset as TorchDataset
 
-from potato.config import global_settings
-from potato.interfaces.dataset import BaseDataset
+from tuberlens.config import global_settings
+from tuberlens.interfaces.dataset import BaseDataset
 
 
 class ActivationDataset(TorchDataset):

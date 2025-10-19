@@ -5,7 +5,7 @@ import numpy as np
 import requests
 import torch
 
-from potato.interfaces.dataset import LabelledDataset
+from tuberlens.interfaces.dataset import LabelledDataset
 
 
 def as_numpy(x: torch.Tensor) -> np.ndarray:

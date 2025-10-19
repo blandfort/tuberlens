@@ -5,9 +5,9 @@ import pandas as pd
 from jaxtyping import Float
 from sklearn.metrics import accuracy_score, roc_auc_score, roc_curve
 
-from potato.interfaces.dataset import LabelledDataset
-from potato.model import LLMModel
-from potato.probes.pytorch_probes import filter_activations_by_turns
+from tuberlens.interfaces.dataset import LabelledDataset
+from tuberlens.model import LLMModel
+from tuberlens.probes.pytorch_probes import filter_activations_by_turns
 
 
 def tpr_at_fixed_fpr_score(
@@ -122,7 +122,7 @@ if __name__ == "__main__":
 
     import pickle
 
-    from potato.config import DATA_DIR
+    from tuberlens.config import DATA_DIR
 
     probe_path = DATA_DIR / "high-stakes" / "high-stakes_probe.pkl"
     probe = pickle.load(open(probe_path, "rb"))

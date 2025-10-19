@@ -5,23 +5,23 @@ import numpy as np
 import torch
 from jaxtyping import Float
 
-from potato.interfaces.activations import (
+from tuberlens.interfaces.activations import (
     Activation,
 )
-from potato.interfaces.dataset import (
+from tuberlens.interfaces.dataset import (
     BaseDataset,
     Input,
     Label,
     LabelledDataset,
     Message,
 )
-from potato.interfaces.probes import Probe
-from potato.model import LLMModel
-from potato.probes.pytorch_classifiers import (
+from tuberlens.interfaces.probes import Probe
+from tuberlens.model import LLMModel
+from tuberlens.probes.pytorch_classifiers import (
     PytorchAdamClassifier,
     PytorchClassifier,
 )
-from potato.utils import as_numpy
+from tuberlens.utils import as_numpy
 
 
 @dataclass(kw_only=True)
