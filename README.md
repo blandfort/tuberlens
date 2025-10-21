@@ -93,22 +93,8 @@ See [notebooks/examples/](notebooks/examples/) for several examples on how to tr
 
 ## Citation
 
-If you use this software in your research, please cite both the original research paper and this software:
+If you use this software in your research, please cite this software:
 
-### Original Research Paper
-```bibtex
-@misc{mckenzie2025highstakes,
-      title={Detecting High-Stakes Interactions with Activation Probes},
-      author={Alex McKenzie and Urja Pawar and Phil Blandfort and William Bankes and David Krueger and Ekdeep Singh Lubana and Dmitrii Krasheninnikov},
-      year={2025},
-      eprint={2506.10805},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG},
-      url={https://arxiv.org/abs/2506.10805},
-}
-```
-
-### This Software
 ```bibtex
 @software{tuberlens,
   author={Phil Blandfort and Alex McKenzie and Urja Pawar and William Bankes},
